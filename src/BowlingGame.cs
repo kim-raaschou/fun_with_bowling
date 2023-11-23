@@ -17,8 +17,20 @@ public class BowlingGame
     public void Strike() =>
         _frames.Add(new Frame(FrameType.Strike, 10));
 
-    public void Bonus(int bonus) =>
-        _frames.Add(new Frame(FrameType.Bonus, bonus));
+    public void Bonus(int bonus)
+    {
+        var bonusFrame = _frames.FirstOrDefault(frame => frame.Type == FrameType.Bonus);
+
+        if (bonusFrame is null)
+        {
+            _frames.Add(new Frame(FrameType.Bonus, bonus));
+        }
+        else
+        {
+            _frames.Remove(bonusFrame);
+            _frames.Add(bonusFrame with { SecondDelevery = bonus });
+        }
+    }
 
     public int TotalScore() =>
         _frames.Select(GetTotalScoreForFame).Sum();
@@ -28,18 +40,36 @@ public class BowlingGame
         var (type, firstDelevery, secondDelevery) = frame;
         int score = firstDelevery + secondDelevery;
 
-        return type switch
+        var totalScore = type switch
         {
             FrameType.OpenFrame => score,
-            FrameType.Spare => score + GetBonus(index + 1),
-            FrameType.Strike => score + GetBonus(index + 1) + GetBonus(index + 2),
+            FrameType.Spare => score + GetSpareBonus(index + 1),
+            FrameType.Strike => score + GetStrikeBonus(index + 1),
             _ => 0
         };
 
-        int GetBonus(int frame)
+        return totalScore;
+
+        int GetSpareBonus(int frame)
         {
             var (_, bonus, _) = _frames[frame];
             return bonus;
         }
+
+        int GetStrikeBonus(int frame)
+        {
+            var (type, firstBonusDelevery, _) = _frames[frame];
+            if (type == FrameType.Strike)
+            {
+                var (_, secondBonusDelevery, _) = _frames[frame + 1];
+                return firstBonusDelevery + secondBonusDelevery;
+            }
+            else
+            {
+                var (_, _, secondBonusDelevery) = _frames[frame];
+                return firstBonusDelevery + secondBonusDelevery;
+            }
+        }
+
     }
 }
