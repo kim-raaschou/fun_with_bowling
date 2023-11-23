@@ -172,7 +172,7 @@ public class BowlingGameTests
 
 
     [Fact]
-    public void Should_calculate_totalScore_on_random_game()
+    public void Should_calculate_totalScore_on_random_game1()
     {
         // Arrange
         var bowlingGame = new BowlingGame();
@@ -192,6 +192,29 @@ public class BowlingGameTests
 
         // Assert
         Assert.Equal(104, bowlingGame.TotalScore());
+    }
+
+     [Fact]
+    public void Should_calculate_totalScore_on_random_game2()
+    {
+        // Arrange
+        var bowlingGame = new BowlingGame();
+
+        // Act
+        bowlingGame.Strike();
+        bowlingGame.OpenFrame(1,1);
+        bowlingGame.OpenFrame(2,2);
+        bowlingGame.OpenFrame(3,3);
+        bowlingGame.Strike();
+        bowlingGame.OpenFrame(4, 4);
+        bowlingGame.Spare(5, 5);
+        bowlingGame.OpenFrame(3, 3); 
+        bowlingGame.OpenFrame(2, 2); 
+        bowlingGame.Spare(1, 9); 
+        bowlingGame.Bonus(10);
+
+        // Assert
+        Assert.Equal(93, bowlingGame.TotalScore());
     }
 }
 
