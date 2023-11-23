@@ -33,9 +33,9 @@ public class BowlingGame
     }
 
     public int TotalScore() =>
-        _frames.Select(GetTotalScoreForFame).Sum();
+        _frames.Select(GetTotalScoreForFrame).Sum();
 
-    private int GetTotalScoreForFame(Frame frame, int index)
+    private int GetTotalScoreForFrame(Frame frame, int index)
     {
         var (type, firstDelevery, secondDelevery) = frame;
         int score = firstDelevery + secondDelevery;
