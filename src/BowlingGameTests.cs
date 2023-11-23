@@ -185,16 +185,16 @@ public class BowlingGameTests
         bowlingGame.OpenFrame(8, 1);
         bowlingGame.OpenFrame(7, 2);
         bowlingGame.OpenFrame(2, 6);
-        bowlingGame.OpenFrame(4, 4); 
-        bowlingGame.OpenFrame(6, 1); 
-        bowlingGame.Spare(8, 2); 
+        bowlingGame.OpenFrame(4, 4);
+        bowlingGame.OpenFrame(6, 1);
+        bowlingGame.Spare(8, 2);
         bowlingGame.Bonus(10);
 
         // Assert
         Assert.Equal(104, bowlingGame.TotalScore());
     }
 
-     [Fact]
+    [Fact]
     public void Should_calculate_totalScore_on_random_game2()
     {
         // Arrange
@@ -202,15 +202,15 @@ public class BowlingGameTests
 
         // Act
         bowlingGame.Strike();
-        bowlingGame.OpenFrame(1,1);
-        bowlingGame.OpenFrame(2,2);
-        bowlingGame.OpenFrame(3,3);
+        bowlingGame.OpenFrame(1, 1);
+        bowlingGame.OpenFrame(2, 2);
+        bowlingGame.OpenFrame(3, 3);
         bowlingGame.Strike();
         bowlingGame.OpenFrame(4, 4);
         bowlingGame.Spare(5, 5);
-        bowlingGame.OpenFrame(3, 3); 
-        bowlingGame.OpenFrame(2, 2); 
-        bowlingGame.Spare(1, 9); 
+        bowlingGame.OpenFrame(3, 3);
+        bowlingGame.OpenFrame(2, 2);
+        bowlingGame.Spare(1, 9);
         bowlingGame.Bonus(10);
 
         // Assert
