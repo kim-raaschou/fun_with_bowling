@@ -21,17 +21,18 @@ public class BowlingGame
         _frames.Add(new Frame(FrameType.Bonus, bonus));
 
     public int TotalScore() =>
-        _frames.Select(GetTotalForFame).Sum();
+        _frames.Select(GetTotalScoreForFame).Sum();
 
-    private int GetTotalForFame(Frame frame, int index)
+    private int GetTotalScoreForFame(Frame frame, int index)
     {
         var (type, firstDelevery, secondDelevery) = frame;
+        int score = firstDelevery + secondDelevery;
 
         return type switch
         {
-            FrameType.OpenFrame => firstDelevery + secondDelevery,
-            FrameType.Spare => firstDelevery + secondDelevery + GetBonus(index + 1),
-            FrameType.Strike => firstDelevery + secondDelevery + GetBonus(index + 1) + GetBonus(index + 2),
+            FrameType.OpenFrame => score,
+            FrameType.Spare => score + GetBonus(index + 1),
+            FrameType.Strike => score + GetBonus(index + 1) + GetBonus(index + 2),
             _ => 0
         };
 
