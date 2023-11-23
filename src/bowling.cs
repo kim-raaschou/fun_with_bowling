@@ -1,10 +1,6 @@
-
-
-
-
 namespace fun_with_bowling;
 
-public record Frame(FrameType Type, int firstDelevery, int secondDelevery = 0);
+public record Frame(FrameType Type, int FirstDelevery, int SecondDelevery = 0);
 
 public enum FrameType { OpenFrame, Spare, Strike, Bonus }
 
