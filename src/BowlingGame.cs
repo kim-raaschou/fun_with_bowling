@@ -43,20 +43,20 @@ public class BowlingGame
         var totalScore = type switch
         {
             FrameType.OpenFrame => score,
-            FrameType.Spare => score + GetSpareBonus(frameIndex),
-            FrameType.Strike => score + GetStrikeBonus(frameIndex),
+            FrameType.Spare => score + GetBonusForSpare(frameIndex),
+            FrameType.Strike => score + GetBonusForStrike(frameIndex),
             _ => 0
         };
 
         return totalScore;
 
-        int GetSpareBonus(int frameIndex)
+        int GetBonusForSpare(int frameIndex)
         {
-            var (_, bonus, _) = _frames[frameIndex + 1];
-            return bonus;
+            var (_, bonusDelevery, _) = _frames[frameIndex + 1];
+            return bonusDelevery;
         }
 
-        int GetStrikeBonus(int frame)
+        int GetBonusForStrike(int frame)
         {
             var (type, firstBonusDelevery, _) = _frames[frame + 1];
             if (type == FrameType.Strike)
