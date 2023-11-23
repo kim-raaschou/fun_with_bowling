@@ -32,44 +32,12 @@ public class BowlingGame
         }
     }
 
-    public int TotalScore() =>
-        _frames.Select(GetTotalScoreForFrame).Sum();
-
-    private int GetTotalScoreForFrame(Frame frame, int frameIndex)
+    public int TotalScore()
     {
-        var (type, firstDelevery, secondDelevery) = frame;
-        int score = firstDelevery + secondDelevery;
-
-        var totalScore = type switch
-        {
-            FrameType.OpenFrame => score,
-            FrameType.Spare => score + GetBonusForSpare(frameIndex),
-            FrameType.Strike => score + GetBonusForStrike(frameIndex),
-            _ => 0
-        };
-
-        return totalScore;
-
-        int GetBonusForSpare(int frameIndex)
-        {
-            var (_, bonusDelevery, _) = _frames[frameIndex + 1];
-            return bonusDelevery;
-        }
-
-        int GetBonusForStrike(int frame)
-        {
-            var (type, firstBonusDelevery, _) = _frames[frame + 1];
-            if (type == FrameType.Strike)
-            {
-                var (_, secondBonusDelevery, _) = _frames[frame + 2];
-                return firstBonusDelevery + secondBonusDelevery;
-            }
-            else
-            {
-                var (_, _, secondBonusDelevery) = _frames[frame + 1];
-                return firstBonusDelevery + secondBonusDelevery;
-            }
-        }
-
+        var scoreCalculator = new FrameScoreCalculator(_frames);
+        
+        return _frames
+            .Select((_, frameIndex) => scoreCalculator.GetScore(frameIndex))
+            .Sum();
     }
 }
