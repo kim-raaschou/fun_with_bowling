@@ -24,17 +24,24 @@ public class FrameScoreCalculator(IList<Frame> Frames)
         return bonusDelevery;
     }
 
-    private int GetBonusForStrike(int frame)
+    private int GetBonusForStrike(int frameIndex)
     {
-        var (type, firstBonusDelevery, _) = frames[frame + 1];
-        if (type == FrameType.Strike)
+        var nextFrameType = frames[frameIndex + 1].Type;
+
+        return nextFrameType is FrameType.Strike
+            ? GetBonusFromNextTwoDeleveries(frameIndex)
+            : GetBonusFromNextDelevery(frameIndex);
+
+        int GetBonusFromNextTwoDeleveries(int frameIndex)
         {
-            var (_, secondBonusDelevery, _) = frames[frame + 2];
+            var (_, firstBonusDelevery, _) = frames[frameIndex + 1];
+            var (_, secondBonusDelevery, _) = frames[frameIndex + 2];
             return firstBonusDelevery + secondBonusDelevery;
         }
-        else
+
+        int GetBonusFromNextDelevery(int frameIndex)
         {
-            var (_, _, secondBonusDelevery) = frames[frame + 1];
+            var (_, firstBonusDelevery, secondBonusDelevery) = frames[frameIndex + 1];
             return firstBonusDelevery + secondBonusDelevery;
         }
     }
