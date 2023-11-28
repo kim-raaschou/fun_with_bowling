@@ -222,7 +222,7 @@ file class BowlingTestGameWith : BowlingGame
 {
     public BowlingTestGameWith(int openframes)
     {
-        for (int i = 0; i < openframes; i++)
+        for (int i = 0; i < openframes+1; i++)
         {
             OpenFrame(0, 0);
         }
