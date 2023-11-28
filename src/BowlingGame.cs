@@ -18,24 +18,16 @@ public class BowlingGame
         _frames.Add(new Frame(FrameType.Strike, 10));
 
     public void Bonus(int bonus)
-    {
-        var bonusFrame = _frames.FirstOrDefault(frame => frame.Type == FrameType.Bonus);
-
-        if (bonusFrame is null)
-        {
-            _frames.Add(new Frame(FrameType.Bonus, bonus));
-        }
-        else
-        {
-            _frames.Remove(bonusFrame);
-            _frames.Add(bonusFrame with { SecondDelevery = bonus });
-        }
-    }
+    => _frames.AddOrUpdate(
+        match: frame => frame.Type == FrameType.Bonus,
+        add: () => new Frame(FrameType.Bonus, bonus),
+        update: bonusFrame => bonusFrame with { SecondDelevery = bonus }
+    );
 
     public int TotalScore()
     {
         var scoreCalculator = new FrameScoreCalculator(_frames);
-        
+
         return _frames
             .Select((_, frameIndex) => scoreCalculator.GetScore(frameIndex))
             .Sum();
